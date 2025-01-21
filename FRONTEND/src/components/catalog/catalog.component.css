@@ -1,0 +1,94 @@
+.catalog-container {
+  margin: 20px 0;
+}
+
+.catalog-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #2c3e50;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.catalog-container .table-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.catalog-container table.styled-table {
+  width: 90%;
+  max-width: 1200px;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.catalog-container .header-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.styled-table thead tr {
+  background-color: #2c3e50;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #f1f7ff;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #2c3e50;
+}
+
+.styled-table th {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+.bouton-add {
+  padding: 8px 15px;
+  border: none;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.bouton-add:hover {
+  background-color: #2980b9;
+}
+
+.bouton-redirection {
+  padding: 8px 15px;
+  border: none;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-right: 10px;
+}
+
+.bouton-redirection:hover {
+  background-color: #2980b9;
+}

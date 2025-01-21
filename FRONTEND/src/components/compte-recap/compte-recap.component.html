@@ -1,0 +1,17 @@
+<div *ngIf="compteData" class="recap-container">
+  <h2>Récapitulatif du compte</h2>
+  <p><span class="recap-label">Civilité :</span> {{ compteData.civilite }}</p>
+  <p><span class="recap-label">Nom :</span> {{ compteData.nom | uppercase }}</p>
+  <p><span class="recap-label">Prénom :</span> {{ compteData.prenom | capitalizeFirst }}</p>
+  <p><span class="recap-label">Adresse :</span> {{ compteData.adresse }}</p>
+  <p><span class="recap-label">CP :</span> {{ compteData.cp }}</p>
+  <p><span class="recap-label">Ville :</span> {{ compteData.ville }}</p>
+  <p><span class="recap-label">Pays :</span> {{ compteData.pays }}</p>
+  <p><span class="recap-label">Téléphone :</span> {{ compteData.tel }}</p>
+  <p><span class="recap-label">Email :</span> {{ compteData.email }}</p>
+
+  <div class="recap-buttons">
+    <button (click)="onEditClick()">Modifier</button>
+    <button (click)="goToCatalog()">Retour au catalogue</button>
+  </div>
+</div>

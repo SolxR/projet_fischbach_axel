@@ -1,0 +1,64 @@
+.paiement-container {
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.paiement-container h2 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.paiement-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.paiement-container label {
+  font-weight: bold;
+}
+
+.paiement-container input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.paiement-container button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.paiement-container button:hover {
+  background-color: #2980b9;
+}
+
+.card-list-container table.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.card-list-container th,
+.card-list-container td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.card-list-container th {
+  background-color: #2c3e50;
+  color: #ffffff;
+}
+
+.bouton-carte {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}

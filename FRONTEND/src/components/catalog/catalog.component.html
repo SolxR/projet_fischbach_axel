@@ -1,0 +1,55 @@
+<!-- Barre d'actions en haut -->
+<div class="header-actions">
+  <!-- Boutons pour rediriger vers le compte et le panier -->
+  <button [routerLink]="['/compte-recap']" class="bouton-redirection">
+    Mon compte
+  </button>
+  <button [routerLink]="['/panier']" class="bouton-redirection">
+    Mon panier
+  </button>
+</div>
+
+<!-- Zone de recherche (product-search) -->
+<div class="search-container">
+  <app-product-search
+    [products]="products"
+    (filterChange)="onFilterChange($event)">
+  </app-product-search>
+</div>
+
+<div class="catalog-container">
+  <h2>Liste des Produits</h2>
+
+  <p class="cart-summary">
+    Nombre d'articles dans le panier : {{ totalCount$ | async }}
+  </p>
+
+  <div class="table-wrapper">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Catégorie</th>
+          <th>Prix</th>
+          <th>Stock</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filteredProducts">
+          <td>{{ p.id }}</td>
+          <td>{{ p.name }}</td>
+          <td>{{ p.category }}</td>
+          <td>{{ p.price }} €</td>
+          <td>{{ p.stock }}</td>
+          <td>
+            <button class="bouton-add" (click)="addProductToCart(p)">
+              Ajouter au panier
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -61,8 +61,7 @@ export class CompteFormComponent implements OnInit {
       pays: ['', Validators.required],
       tel: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      login: ['', Validators.required],
-      password: [''], // S’il est optionnel ou pour la création
+      login: ['', Validators.required], // Le champ "login" est requis
     });
   }
 
@@ -71,20 +70,20 @@ export class CompteFormComponent implements OnInit {
    */
   onSubmit(): void {
     if (this.compteForm.valid && this.userId) {
-      const data = this.compteForm.value;
-  
-      if (!data.password) {
-        delete data.password;
-      }
-  
+      const data = this.compteForm.value; // Les champs du formulaire
+
+      // Appeler la méthode du service pour mettre à jour les données
       this.compteService.updateUserById(this.userId, data).subscribe({
         next: (res) => {
+          // Sauvegarder les données utilisateur mises à jour dans le localStorage
           localStorage.setItem('user', JSON.stringify(res.user));
+
+          // Rediriger vers la page récapitulatif
           this.router.navigate(['/compte-recap']);
         },
         error: (err) => {
           console.error('Erreur mise à jour user :', err);
-        }
+        },
       });
     }
   }

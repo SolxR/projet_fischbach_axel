@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 /**
  * Interface décrivant la structure d'un utilisateur.
- * Adaptez selon votre modèle en base.
  */
 export interface UserData {
   id?: number;
@@ -25,36 +24,42 @@ export interface UserData {
   providedIn: 'root',
 })
 export class CompteService {
-  // URL principal pour votre backend. 
-  // Si vous utilisez un proxy, "/api/auth" pointera vers http://localhost:3000/auth
-  private apiUrl = '/api/auth';
-
-  // "Cache" local
-  private localUser: UserData | null = null;
+  private apiUrl = '/api/auth'; // URL principal pour le backend
+  private localUser: UserData | null = null; // Cache local
 
   constructor(private http: HttpClient) {}
 
   /**
-   * 1) Charger l'utilisateur stocké dans localStorage et
-   *    définir localUser avec cette valeur.
+   * Charger l'utilisateur depuis le localStorage.
+   * Si le localStorage ne contient pas d'utilisateur ou contient une valeur invalide,
+   * on ne fait rien.
    */
   loadUserFromLocalStorage(): void {
     const userString = localStorage.getItem('user');
+    console.log('Contenu brut du localStorage (clé "user") :', userString); // <-- Ajout du log
+  
     if (userString) {
-      this.localUser = JSON.parse(userString);
+      try {
+        this.localUser = JSON.parse(userString);
+      } catch (error) {
+        console.error('Erreur lors du parsing des données utilisateur dans localStorage :', error);
+        this.localUser = null; // Réinitialiser en cas d'erreur
+      }
+    } else {
+      console.warn('Aucune donnée utilisateur trouvée dans localStorage.');
+      this.localUser = null;
     }
   }
 
   /**
-   * 2) Récupérer l'utilisateur chargé en mémoire (localUser).
+   * Retourner les données utilisateur chargées en mémoire (localUser).
    */
   getLocalUser(): UserData | null {
     return this.localUser;
   }
 
   /**
-   * 3) Sauvegarder un utilisateur en localStorage ET en localUser.
-   *    (utile après un login ou une mise à jour en base).
+   * Sauvegarder un utilisateur en localStorage ET en localUser.
    */
   saveUserToLocalStorage(user: UserData): void {
     this.localUser = user;
@@ -62,20 +67,22 @@ export class CompteService {
   }
 
   /**
-   * 4) Mettre à jour l'utilisateur en base via la route 
-   *    PUT /auth/me/:id
-   *    data = partiel de UserData (civ, nom, etc.)
+   * Récupérer les informations utilisateur depuis le backend via GET /auth/me.
    */
-  updateUserById(userId: number, data: Partial<UserData>): Observable<any> {
-    // => /api/auth/me/1 => via proxy => http://localhost:3000/auth/me/1
-    return this.http.put(`${this.apiUrl}/me/${userId}`, data);
+  getUserFromBackend(): Observable<UserData> {
+    return this.http.get<UserData>(`${this.apiUrl}/me`);
   }
 
   /**
-   * (Optionnel) Si vous souhaitez GET un user par ID
-   * GET /auth/me/:id 
+   * Mettre à jour un utilisateur en base via PUT /auth/me/:id.
    */
-  getUserById(userId: number): Observable<UserData> {
-    return this.http.get<UserData>(`${this.apiUrl}/me/${userId}`);
+  updateUserById(userId: number, data: Partial<UserData>): Observable<any> {
+    const token = localStorage.getItem('token'); // Récupère le token JWT depuis le localStorage
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`, // Ajoute le token dans le header Authorization
+    });
+
+    return this.http.put(`${this.apiUrl}/me/${userId}`, data, { headers });
   }
 }

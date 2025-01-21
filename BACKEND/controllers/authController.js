@@ -17,7 +17,25 @@ exports.login = async (req, res) => {
         }
 
         const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.status(200).json({ message: 'Connexion réussie', token });
+
+        // Inclure les informations utilisateur dans la réponse
+        res.status(200).json({
+            message: 'Connexion réussie',
+            token,
+            user: {
+                id: user.id,
+                email: user.email,
+                civilite: user.civilite,
+                nom: user.nom,
+                prenom: user.prenom,
+                adresse: user.adresse,
+                cp: user.cp,
+                ville: user.ville,
+                pays: user.pays,
+                tel: user.tel,
+                login: user.login,
+            },
+        });
     } catch (err) {
         res.status(500).json({ error: 'Erreur lors de la connexion' });
     }
@@ -63,5 +81,51 @@ exports.register = async (req, res) => {
         });
     } catch (err) {
         res.status(500).json({ error: 'Erreur lors de la création du compte.' });
+    }
+};
+
+exports.updateUserById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const data = req.body;
+
+        // Log pour le débogage
+        console.log(`Requête de mise à jour pour ID=${id} :`, data);
+
+        // Vérifier si l'utilisateur existe
+        const user = await User.findByPk(id);
+        if (!user) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' });
+        }
+
+        // Gestion du mot de passe (ne pas modifier si vide)
+        if (!data.password) {
+            delete data.password;
+        } else {
+            data.password = await bcrypt.hash(data.password, 10);
+        }
+
+        // Mise à jour des champs utilisateur
+        await user.update(data);
+
+        res.status(200).json({
+            message: `Utilisateur ID=${id} mis à jour avec succès`,
+            user: {
+                id: user.id,
+                email: user.email,
+                civilite: user.civilite,
+                nom: user.nom,
+                prenom: user.prenom,
+                adresse: user.adresse,
+                cp: user.cp,
+                ville: user.ville,
+                pays: user.pays,
+                tel: user.tel,
+                login: user.login,
+            },
+        });
+    } catch (err) {
+        console.error('Erreur lors de la mise à jour de l’utilisateur :', err);
+        res.status(500).json({ error: 'Erreur lors de la mise à jour de l’utilisateur' });
     }
 };

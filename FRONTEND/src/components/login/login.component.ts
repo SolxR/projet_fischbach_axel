@@ -34,13 +34,17 @@ export class LoginComponent {
 
       this.authService.login(creds).subscribe({
         next: (response) => {
-          localStorage.setItem('token', response.token);
+          if (response.user) {
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('user', JSON.stringify(response.user));
 
-          localStorage.setItem('user', JSON.stringify(response.user));
-          
-          this.compteService.saveUserToLocalStorage(response.user);
+            this.compteService.saveUserToLocalStorage(response.user);
 
-          this.router.navigate(['/catalog']);
+            this.router.navigate(['/catalog']);
+          } else {
+            console.error('Aucune donnée utilisateur dans la réponse.');
+            this.loginError = 'Erreur : Impossible de récupérer les informations utilisateur.';
+          }
         },
         error: (err) => {
           this.loginError = err.error?.error || 'Connexion échouée';

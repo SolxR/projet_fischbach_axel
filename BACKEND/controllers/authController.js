@@ -22,3 +22,46 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: 'Erreur lors de la connexion' });
     }
 };
+
+exports.register = async (req, res) => {
+    try {
+        const { civilite, nom, prenom, adresse, cp, ville, pays, tel, email, login, password } = req.body;
+
+        // Vérifier si un utilisateur existe déjà avec cet email
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Un utilisateur avec cet email existe déjà.' });
+        }
+
+        // Hasher le mot de passe
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Créer le nouvel utilisateur
+        const newUser = await User.create({
+            civilite,
+            nom,
+            prenom,
+            adresse,
+            cp,
+            ville,
+            pays,
+            tel,
+            email,
+            login,
+            password: hashedPassword,
+        });
+
+        res.status(201).json({
+            message: 'Compte créé avec succès.',
+            user: {
+                id: newUser.id,
+                email: newUser.email,
+                civilite: newUser.civilite,
+                nom: newUser.nom,
+                prenom: newUser.prenom,
+            },
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Erreur lors de la création du compte.' });
+    }
+};

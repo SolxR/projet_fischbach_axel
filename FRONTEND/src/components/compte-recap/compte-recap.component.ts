@@ -20,11 +20,20 @@ export class CompteRecapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Charger l'utilisateur depuis le localStorage.
     this.compteService.loadUserFromLocalStorage();
+    // Puis récupérer localUser
     this.compteData = this.compteService.getLocalUser();
+
+    if (!this.compteData) {
+      console.warn('Aucun utilisateur trouvé dans le localStorage.');
+      // Éventuellement rediriger vers login ou autre
+      // this.router.navigate(['/login']);
+    }
   }
 
   onEditClick(): void {
+    // Aller sur la page compte-form pour modifier
     this.router.navigate(['/compte-form']);
   }
 

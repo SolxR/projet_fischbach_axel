@@ -14,9 +14,6 @@
         formControlName="email"
         placeholder="Entrez votre email"
       />
-      <div class="error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-        Email requis
-      </div>
     </div>
 
     <div class="form-group">
@@ -27,13 +24,11 @@
         formControlName="password"
         placeholder="Entrez votre mot de passe"
       />
-      <div class="error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-        Mot de passe requis
-      </div>
     </div>
 
     <div class="form-buttons">
       <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
+      <button type="button" (click)="navigateToRegister()">Créer un compte</button>
     </div>
   </form>
 </div>

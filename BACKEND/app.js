@@ -7,7 +7,6 @@ const Produit = require('./models/Produit.js');
 const authRoutes = require('./routes/auth.js');
 const productRoutes = require('./routes/produit.js');
 const auth = require('./middleware/auth.js');
-const { seedDatabase } = require('./utils/seedData.js');
 
 dotenv.config();
 
@@ -26,8 +25,7 @@ const startServer = async () => {
         await sequelize.sync({ alter: true });
         console.log('Modèles synchronisés avec la base de données');
 
-        await seedDatabase();
-        console.log('Données fictives insérées dans la base de données.');
+        console.log('Aucune donnée fictive n’a été insérée.');
 
         const PORT = process.env.PORT || 5432;
         app.listen(PORT, () => {
@@ -39,4 +37,3 @@ const startServer = async () => {
 };
 
 startServer();
-

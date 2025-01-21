@@ -1,0 +1,125 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container">
+    <h2>Créer un compte</h2>
+  
+    <!-- Civilité -->
+    <div class="form-group">
+      <label for="civilite">Civilité</label>
+      <select id="civilite" formControlName="civilite">
+        <option value="M">M</option>
+        <option value="Mme">Mme</option>
+      </select>
+      <div class="error" *ngIf="registerForm.get('civilite')?.touched && registerForm.get('civilite')?.invalid">
+        Civilité requise.
+      </div>
+    </div>
+  
+    <!-- Nom -->
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input id="nom" type="text" formControlName="nom" />
+      <div class="error" *ngIf="registerForm.get('nom')?.touched && registerForm.get('nom')?.invalid">
+        Le nom est requis.
+      </div>
+    </div>
+  
+    <!-- Prénom -->
+    <div class="form-group">
+      <label for="prenom">Prénom</label>
+      <input id="prenom" type="text" formControlName="prenom" />
+      <div class="error" *ngIf="registerForm.get('prenom')?.touched && registerForm.get('prenom')?.invalid">
+        Le prénom est requis.
+      </div>
+    </div>
+  
+    <!-- Adresse -->
+    <div class="form-group">
+      <label for="adresse">Adresse</label>
+      <input id="adresse" type="text" formControlName="adresse" />
+      <div class="error" *ngIf="registerForm.get('adresse')?.touched && registerForm.get('adresse')?.invalid">
+        L'adresse est requise.
+      </div>
+    </div>
+  
+    <!-- Code postal -->
+    <div class="form-group">
+      <label for="cp">Code Postal</label>
+      <input id="cp" type="text" formControlName="cp" />
+      <div class="error" *ngIf="registerForm.get('cp')?.touched && registerForm.get('cp')?.invalid">
+        Le code postal est requis.
+      </div>
+    </div>
+  
+    <!-- Ville -->
+    <div class="form-group">
+      <label for="ville">Ville</label>
+      <input id="ville" type="text" formControlName="ville" />
+      <div class="error" *ngIf="registerForm.get('ville')?.touched && registerForm.get('ville')?.invalid">
+        La ville est requise.
+      </div>
+    </div>
+  
+    <!-- Pays -->
+    <div class="form-group">
+      <label for="pays">Pays</label>
+      <input id="pays" type="text" formControlName="pays" />
+      <div class="error" *ngIf="registerForm.get('pays')?.touched && registerForm.get('pays')?.invalid">
+        Le pays est requis.
+      </div>
+    </div>
+  
+    <!-- Téléphone -->
+    <div class="form-group">
+      <label for="tel">Téléphone</label>
+      <input id="tel" type="text" formControlName="tel" />
+      <div class="error" *ngIf="registerForm.get('tel')?.touched && registerForm.get('tel')?.invalid">
+        <small *ngIf="registerForm.get('tel')?.errors?.['required']">
+          Le téléphone est requis.
+        </small>
+        <small *ngIf="registerForm.get('tel')?.errors?.['pattern']">
+          Le numéro doit contenir uniquement des chiffres.
+        </small>
+      </div>
+    </div>
+  
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+      <div class="error" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+        <small *ngIf="registerForm.get('email')?.errors?.['required']">
+          L'email est requis.
+        </small>
+        <small *ngIf="registerForm.get('email')?.errors?.['email']">
+          Format d'email invalide.
+        </small>
+      </div>
+    </div>
+  
+    <!-- Login -->
+    <div class="form-group">
+      <label for="login">Login</label>
+      <input id="login" type="text" formControlName="login" />
+      <div class="error" *ngIf="registerForm.get('login')?.touched && registerForm.get('login')?.invalid">
+        Le login est requis.
+      </div>
+    </div>
+  
+    <!-- Mot de passe -->
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input id="password" type="password" formControlName="password" />
+      <div class="error" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+        <small *ngIf="registerForm.get('password')?.errors?.['required']">
+          Le mot de passe est requis.
+        </small>
+        <small *ngIf="registerForm.get('password')?.errors?.['minlength']">
+          Le mot de passe doit contenir au moins 6 caractères.
+        </small>
+      </div>
+    </div>
+  
+    <div class="form-buttons">
+      <button type="submit" [disabled]="registerForm.invalid">Créer le compte</button>
+      <button type="button" (click)="registerForm.reset()">Réinitialiser</button>
+    </div>
+  </form>

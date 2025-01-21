@@ -5,6 +5,7 @@ import { CompteRecapComponent } from '../components/compte-recap/compte-recap.co
 import { PanierComponent } from '../components/panier/panier.component';
 import { PaiementComponent } from '../components/paiement/paiement.component';
 import { LoginComponent } from '../components/login/login.component';
+import { RegisterComponent } from '../components/register/register.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'compte-recap', component: CompteRecapComponent },
   { path: 'panier', component: PanierComponent },
   { path: 'paiement', component: PaiementComponent },
+  { path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: '' }
 ];

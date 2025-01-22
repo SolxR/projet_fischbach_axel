@@ -1,8 +1,20 @@
 <div class="main-container">
   <header class="header">
     <h1>Ma Boutique Virtuelle</h1>
-    <button class="logout-button" (click)="onLogout()">Déconnexion</button>
+    <button class="logout-button" (click)="confirmLogout()">Déconnexion</button>
   </header>
 
+  <div class="not-connected-message" *ngIf="notConnectedMessage">
+    {{ notConnectedMessage }}
+  </div>
+
   <router-outlet></router-outlet>
+
+  <div class="confirmation-modal" *ngIf="showLogoutConfirmation">
+    <div class="modal-content">
+      <p>Êtes-vous sûr de vouloir vous déconnecter ?</p>
+      <button class="confirm-button" (click)="onLogout()">Oui</button>
+      <button class="cancel-button" (click)="cancelLogout()">Non</button>
+    </div>
+  </div>
 </div>

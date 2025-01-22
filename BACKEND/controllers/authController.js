@@ -18,7 +18,6 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        // Inclure les informations utilisateur dans la réponse
         res.status(200).json({
             message: 'Connexion réussie',
             token,
@@ -45,16 +44,13 @@ exports.register = async (req, res) => {
     try {
         const { civilite, nom, prenom, adresse, cp, ville, pays, tel, email, login, password } = req.body;
 
-        // Vérifier si un utilisateur existe déjà avec cet email
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ error: 'Un utilisateur avec cet email existe déjà.' });
         }
 
-        // Hasher le mot de passe
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Créer le nouvel utilisateur
         const newUser = await User.create({
             civilite,
             nom,
@@ -89,23 +85,19 @@ exports.updateUserById = async (req, res) => {
         const { id } = req.params;
         const data = req.body;
 
-        // Log pour le débogage
         console.log(`Requête de mise à jour pour ID=${id} :`, data);
 
-        // Vérifier si l'utilisateur existe
         const user = await User.findByPk(id);
         if (!user) {
             return res.status(404).json({ error: 'Utilisateur non trouvé' });
         }
 
-        // Gestion du mot de passe (ne pas modifier si vide)
         if (!data.password) {
             delete data.password;
         } else {
             data.password = await bcrypt.hash(data.password, 10);
         }
 
-        // Mise à jour des champs utilisateur
         await user.update(data);
 
         res.status(200).json({

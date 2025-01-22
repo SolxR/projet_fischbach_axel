@@ -8,23 +8,37 @@ import { Router } from '@angular/router';
   selector: 'app-root',
   imports: [
     CommonModule,
-    RouterOutlet
+    RouterOutlet,
   ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  showLogoutConfirmation: boolean = false;
+  notConnectedMessage: string = '';
+
   constructor(private router: Router) {}
 
-  /**
-   * Méthode pour déconnecter l'utilisateur
-   */
+  confirmLogout(): void {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.notConnectedMessage = 'Vous n\'êtes pas connectés.';
+      setTimeout(() => {
+        this.notConnectedMessage = '';
+      }, 3000);
+      return;
+    }
+    this.showLogoutConfirmation = true;
+  }
+
   onLogout(): void {
-    // Supprimer le token et les données utilisateur du localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-
-    // Rediriger vers la page de connexion
     this.router.navigate(['/']);
+    this.showLogoutConfirmation = false;
+  }
+
+  cancelLogout(): void {
+    this.showLogoutConfirmation = false;
   }
 }

@@ -21,15 +21,15 @@ export class RegisterComponent {
   ) {
     this.registerForm = this.fb.group({
       civilite: ['M', Validators.required],
-      nom: ['', Validators.required],
-      prenom: ['', Validators.required],
-      adresse: ['', Validators.required],
-      cp: ['', Validators.required],
-      ville: ['', Validators.required],
-      pays: ['', Validators.required],
-      tel: ['', Validators.required],
+      nom: ['', [Validators.required, Validators.maxLength(50)]],
+      prenom: ['', [Validators.required, Validators.maxLength(50)]],
+      adresse: ['', [Validators.required, Validators.maxLength(100)]],
+      cp: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
+      ville: ['', [Validators.required, Validators.maxLength(50)]],
+      pays: ['', [Validators.required, Validators.maxLength(50)]],
+      tel: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       email: ['', [Validators.required, Validators.email]],
-      login: ['', Validators.required],
+      login: ['', [Validators.required, Validators.maxLength(50)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
@@ -43,8 +43,10 @@ export class RegisterComponent {
         },
         error: (err) => {
           console.error('Erreur lors de la création du compte :', err);
-        }
+        },
       });
+    } else {
+      alert('Veuillez remplir correctement tous les champs du formulaire.');
     }
   }
 }

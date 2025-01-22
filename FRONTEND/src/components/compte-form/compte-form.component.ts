@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CompteService, UserData } from '../../services/compte.service';
+import { CompteService } from '../../services/compte.service';
 
 @Component({
   standalone: true,
@@ -17,11 +12,9 @@ import { CompteService, UserData } from '../../services/compte.service';
   styleUrls: ['./compte-form.component.css'],
 })
 export class CompteFormComponent implements OnInit {
-  // Le FormGroup pour les champs
   compteForm!: FormGroup;
-
-  // Identifiant de l’utilisateur. On suppose qu’on l’a stocké dans user.id
   userId: number | null = null;
+  successMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -30,61 +23,45 @@ export class CompteFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Crée le FormGroup et définit les validators
     this.initForm();
-
-    // Charger l'utilisateur depuis le localStorage
-    this.compteService.loadUserFromLocalStorage();
-
-    // Récupérer l'utilisateur local
-    const localUser = this.compteService.getLocalUser();
+    const localUser = JSON.parse(localStorage.getItem('user') || '{}');
     if (localUser && localUser.id) {
-      // On récupère son ID
       this.userId = localUser.id;
-
-      // Pré-remplir le formulaire
       this.compteForm.patchValue(localUser);
     }
   }
 
-  /**
-   * Initialise le formulaire réactif avec les champs nécessaires.
-   */
   private initForm(): void {
     this.compteForm = this.fb.group({
       civilite: ['M', Validators.required],
-      nom: ['', Validators.required],
-      prenom: ['', Validators.required],
-      adresse: ['', Validators.required],
-      cp: ['', Validators.required],
-      ville: ['', Validators.required],
-      pays: ['', Validators.required],
-      tel: ['', Validators.required],
+      nom: ['', [Validators.required, Validators.maxLength(50)]],
+      prenom: ['', [Validators.required, Validators.maxLength(50)]],
+      adresse: ['', [Validators.required, Validators.maxLength(100)]],
+      cp: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
+      ville: ['', [Validators.required, Validators.maxLength(50)]],
+      pays: ['', [Validators.required, Validators.maxLength(50)]],
+      tel: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       email: ['', [Validators.required, Validators.email]],
-      login: ['', Validators.required], // Le champ "login" est requis
+      login: ['', [Validators.required, Validators.maxLength(50)]],
     });
   }
 
-  /**
-   * Au clic sur "Valider" (ngSubmit), on envoie la mise à jour vers le backend.
-   */
   onSubmit(): void {
     if (this.compteForm.valid && this.userId) {
-      const data = this.compteForm.value; // Les champs du formulaire
-
-      // Appeler la méthode du service pour mettre à jour les données
+      const data = this.compteForm.value;
       this.compteService.updateUserById(this.userId, data).subscribe({
         next: (res) => {
-          // Sauvegarder les données utilisateur mises à jour dans le localStorage
           localStorage.setItem('user', JSON.stringify(res.user));
-
-          // Rediriger vers la page récapitulatif
+          this.successMessage = 'Votre compte a été mis à jour avec succès !';
           this.router.navigate(['/compte-recap']);
         },
         error: (err) => {
-          console.error('Erreur mise à jour user :', err);
+          console.error('Erreur lors de la mise à jour de l’utilisateur :', err);
+          alert('Une erreur est survenue. Veuillez réessayer.');
         },
       });
+    } else {
+      alert('Veuillez remplir correctement tous les champs du formulaire.');
     }
   }
 }

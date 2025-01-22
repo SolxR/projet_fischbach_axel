@@ -20,20 +20,17 @@ export class CompteRecapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Charger l'utilisateur depuis le localStorage
     this.compteService.loadUserFromLocalStorage();
     this.compteData = this.compteService.getLocalUser();
 
-    // Si aucune donnée locale, récupérer les données depuis le backend
     if (!this.compteData) {
       this.compteService.getUserFromBackend().subscribe({
         next: (user) => {
           this.compteData = user;
-          this.compteService.saveUserToLocalStorage(user); // Sauvegarder localement
+          this.compteService.saveUserToLocalStorage(user);
         },
         error: (err) => {
           console.error('Erreur lors de la récupération des données utilisateur :', err);
-          // Rediriger vers la connexion en cas d'erreur (ex : token invalide)
           this.router.navigate(['/login']);
         },
       });
@@ -41,10 +38,10 @@ export class CompteRecapComponent implements OnInit {
   }
 
   onEditClick(): void {
-    this.router.navigate(['/compte-form']); // Rediriger vers le formulaire pour modifier
+    this.router.navigate(['/compte-form']);
   }
 
   goToCatalog(): void {
-    this.router.navigate(['/catalog']); // Retourner au catalogue
+    this.router.navigate(['/catalog']);
   }
 }

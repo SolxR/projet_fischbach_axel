@@ -45,24 +45,6 @@
     </div>
   </div>
 
-  <!-- Téléphone -->
-  <div class="form-group">
-    <label for="tel">Téléphone</label>
-    <input 
-      id="tel" 
-      type="text" 
-      formControlName="tel" 
-      maxlength="10" 
-      pattern="^[0-9]*$" 
-      placeholder="Entrez un numéro à 10 chiffres" 
-    />
-    <div class="error" *ngIf="registerForm.get('tel')?.touched && registerForm.get('tel')?.invalid">
-      <small *ngIf="registerForm.get('tel')?.errors?.['required']">Le téléphone est requis.</small>
-      <small *ngIf="registerForm.get('tel')?.errors?.['pattern']">Le téléphone doit contenir uniquement des chiffres.</small>
-      <small *ngIf="registerForm.get('tel')?.errors?.['maxlength']">Le téléphone doit contenir exactement 10 chiffres.</small>
-    </div>
-  </div>
-
   <!-- Adresse -->
   <div class="form-group">
     <label for="adresse">Adresse</label>
@@ -79,6 +61,70 @@
     </div>
   </div>
 
+  <!-- Code Postal -->
+  <div class="form-group">
+    <label for="cp">Code Postal</label>
+    <input 
+      id="cp" 
+      type="text" 
+      formControlName="cp" 
+      maxlength="5" 
+      placeholder="Entrez un code postal (5 chiffres)" 
+    />
+    <div class="error" *ngIf="registerForm.get('cp')?.touched && registerForm.get('cp')?.invalid">
+      <small *ngIf="registerForm.get('cp')?.errors?.['required']">Le code postal est requis.</small>
+      <small *ngIf="registerForm.get('cp')?.errors?.['pattern']">Le code postal doit contenir exactement 5 chiffres.</small>
+    </div>
+  </div>
+
+  <!-- Ville -->
+  <div class="form-group">
+    <label for="ville">Ville</label>
+    <input 
+      id="ville" 
+      type="text" 
+      formControlName="ville" 
+      maxlength="50" 
+      placeholder="Entrez votre ville" 
+    />
+    <div class="error" *ngIf="registerForm.get('ville')?.touched && registerForm.get('ville')?.invalid">
+      <small *ngIf="registerForm.get('ville')?.errors?.['required']">La ville est requise.</small>
+      <small *ngIf="registerForm.get('ville')?.errors?.['maxlength']">La ville ne peut pas dépasser 50 caractères.</small>
+    </div>
+  </div>
+
+  <!-- Pays -->
+  <div class="form-group">
+    <label for="pays">Pays</label>
+    <input 
+      id="pays" 
+      type="text" 
+      formControlName="pays" 
+      maxlength="50" 
+      placeholder="Entrez votre pays" 
+    />
+    <div class="error" *ngIf="registerForm.get('pays')?.touched && registerForm.get('pays')?.invalid">
+      <small *ngIf="registerForm.get('pays')?.errors?.['required']">Le pays est requis.</small>
+      <small *ngIf="registerForm.get('pays')?.errors?.['maxlength']">Le pays ne peut pas dépasser 50 caractères.</small>
+    </div>
+  </div>
+
+  <!-- Téléphone -->
+  <div class="form-group">
+    <label for="tel">Téléphone</label>
+    <input 
+      id="tel" 
+      type="text" 
+      formControlName="tel" 
+      maxlength="10" 
+      placeholder="Entrez un numéro de 10 chiffres" 
+    />
+    <div class="error" *ngIf="registerForm.get('tel')?.touched && registerForm.get('tel')?.invalid">
+      <small *ngIf="registerForm.get('tel')?.errors?.['required']">Le téléphone est requis.</small>
+      <small *ngIf="registerForm.get('tel')?.errors?.['pattern']">Le téléphone doit contenir exactement 10 chiffres.</small>
+    </div>
+  </div>
+
   <!-- Email -->
   <div class="form-group">
     <label for="email">Email</label>
@@ -91,6 +137,22 @@
     <div class="error" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
       <small *ngIf="registerForm.get('email')?.errors?.['required']">L'email est requis.</small>
       <small *ngIf="registerForm.get('email')?.errors?.['email']">Format d'email invalide.</small>
+    </div>
+  </div>
+
+  <!-- Login -->
+  <div class="form-group">
+    <label for="login">Login</label>
+    <input 
+      id="login" 
+      type="text" 
+      formControlName="login" 
+      maxlength="50" 
+      placeholder="Entrez votre login" 
+    />
+    <div class="error" *ngIf="registerForm.get('login')?.touched && registerForm.get('login')?.invalid">
+      <small *ngIf="registerForm.get('login')?.errors?.['required']">Le login est requis.</small>
+      <small *ngIf="registerForm.get('login')?.errors?.['maxlength']">Le login ne peut pas dépasser 50 caractères.</small>
     </div>
   </div>
 
